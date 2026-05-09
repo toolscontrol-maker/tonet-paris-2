@@ -1,31 +1,31 @@
 import Link from 'next/link';
-import { getCollections } from '@/lib/shopify';
+import { getProducts } from '@/lib/shopify';
 import HeroSection from '@/components/HeroSection';
 
 export default async function Home() {
-  const collections = await getCollections(20);
+  const products = await getProducts();
 
   return (
     <>
       {/* ─── HERO: randomized images from /public/hero/ ─── */}
       <HeroSection />
 
-      {/* ─── COLLECTIONS SECTION ─── */}
+      {/* ─── PRODUCTS SECTION ─── */}
       <section className="shop-section" id="gallery">
         <div className="shop-grid">
-          {collections.map((col) => (
+          {products.map((product) => (
             <Link
-              key={col.handle}
-              href={`/collection/${col.handle}`}
+              key={product.handle}
+              href={`/product/${product.handle}`}
               className="shop-col shop-col-link"
             >
               <div className="shop-col-label">
-                {col.title}<span className="shop-now-suffix"> › SHOP NOW</span>
+                {product.title}<span className="shop-now-suffix"> › SHOP NOW</span>
               </div>
-              {col.imageUrl && (
+              {product.imageUrl && (
                 <div className="shop-product shop-product--collection">
                   <div className="shop-product-img">
-                    <img src={col.imageUrl} alt={col.title} />
+                    <img src={product.imageUrl} alt={product.title} />
                   </div>
                 </div>
               )}
@@ -36,7 +36,7 @@ export default async function Home() {
 
       <style>{`
         /* ═══════════════════════════════════════════════════
-           HERO — 2 blocks of 125vh, Tonet Studios style
+           HERO — 2 blocks of 125vh, Tonet Paris style
         ═══════════════════════════════════════════════════ */
 
         .hero-wrapper {
@@ -99,9 +99,9 @@ export default async function Home() {
           top: 0;
           left: 50%;
           transform: translate(-50%, -50%);
-          font-family: 'HK Grotesk', 'Inter', sans-serif;
+          font-family: var(--font-brand);
           font-size: clamp(3rem, 10vw, 13rem);
-          font-weight: 600;
+          font-weight: normal;
           color: #000;
           white-space: nowrap;
           letter-spacing: -0.055em;
@@ -113,11 +113,11 @@ export default async function Home() {
         }
 
         /* ═══════════════════════════════════════════════════
-           PRODUCT SECTION — 4 columns, Tonet Studios style
+           PRODUCT SECTION — 4 columns, Tonet Paris style
         ═══════════════════════════════════════════════════ */
 
         .shop-section {
-          background: #f0f0f0;
+          background: #ffffff;
           position: relative;
           z-index: 10;
         }

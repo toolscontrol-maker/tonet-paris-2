@@ -240,7 +240,7 @@ export default function ProductClient({ product }: Props) {
                   );
                 })}
               </div>
-              <p className="pdp-out-of-stock">Out of stock? <a href="mailto:contact@tonetstudios.com" className="pdp-notify-link">Get notified</a></p>
+              <p className="pdp-out-of-stock">Out of stock? <a href="mailto:contact@tonetparis.com" className="pdp-notify-link">Get notified</a></p>
             </>
           ) : hasMultipleVariants && (
             <div className="pdp-variants">
@@ -353,11 +353,15 @@ export default function ProductClient({ product }: Props) {
           color: #000;
         }
 
+        .pdp-gallery {
+          background: #ffffff;
+        }
         .pdp-main-img {
           width: 100%;
           height: 80vw;
-          object-fit: cover;
+          object-fit: contain;
           display: block;
+          background: #ffffff;
         }
 
         .pdp-info {
@@ -414,7 +418,7 @@ export default function ProductClient({ product }: Props) {
         .swatch-thumb.active { border: 2px solid #99bbff; }
         .swatch-thumb img { width: 100%; height: 100%; object-fit: contain; display: block; background: #f5f5f5; border-radius: 0; }
 
-        /* SIZE SELECTOR — Tonet Studios style */
+        /* SIZE SELECTOR — Tonet Paris style */
         .pdp-sizes {
           display: flex;
           flex-wrap: wrap;
@@ -432,7 +436,7 @@ export default function ProductClient({ product }: Props) {
           border: none;
           border-right: 1px solid #e0e0e0;
           border-radius: 0;
-          background: #FAF8F5;
+          background: #ffffff;
           cursor: pointer;
           color: #111;
           min-width: 44px;
@@ -469,7 +473,7 @@ export default function ProductClient({ product }: Props) {
           text-transform: uppercase;
           letter-spacing: 0.08em;
           border: 1px solid #ccc;
-          background: #FAF8F5;
+          background: #ffffff;
           cursor: pointer;
           transition: border-color 0.2s, background 0.2s;
         }
@@ -506,7 +510,7 @@ export default function ProductClient({ product }: Props) {
           border: none;
           border-left: 1px solid #111;
           border-radius: 0;
-          background: #FAF8F5;
+          background: #ffffff;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -532,7 +536,7 @@ export default function ProductClient({ product }: Props) {
           display: flex;
           padding: 0;
           padding-bottom: env(safe-area-inset-bottom, 0px);
-          background: #FAF8F5;
+          background: #ffffff;
           border-top: 1px solid #ededed;
           z-index: 200;
           gap: 0;
@@ -565,16 +569,17 @@ export default function ProductClient({ product }: Props) {
           .pdp-main-img {
             width: 100%;
             height: calc(100vh - 60px);
-            object-fit: cover;
+            object-fit: contain;
             position: sticky;
             top: 60px;
+            background: #ffffff;
           }
 
           .pdp-info {
             position: sticky;
-            top: 120px;
+            top: 100px;
             padding: 0 48px 80px 48px;
-            max-height: calc(100vh - 120px);
+            max-height: calc(100vh - 100px);
             overflow-y: auto;
             scrollbar-width: none;
           }
@@ -584,7 +589,7 @@ export default function ProductClient({ product }: Props) {
             position: sticky;
             top: 0;
             z-index: 5;
-            background: #FAF8F5;
+            background: #ffffff;
             padding-top: 40px;
             padding-bottom: 12px;
             margin: 0 -48px;
@@ -596,7 +601,7 @@ export default function ProductClient({ product }: Props) {
             position: sticky;
             top: 114px;
             z-index: 4;
-            background: #FAF8F5;
+            background: #ffffff;
             margin-bottom: 36px;
           }
 

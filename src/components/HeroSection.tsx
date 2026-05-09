@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const HERO_IMAGES = [
@@ -36,12 +36,16 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 export default function HeroSection() {
-  const images = useMemo(() => shuffle(HERO_IMAGES).slice(0, 6), []);
+  const [images, setImages] = useState(HERO_IMAGES.slice(0, 6));
+
+  useEffect(() => {
+    setImages(shuffle(HERO_IMAGES).slice(0, 6));
+  }, []);
 
   return (
     <div className="hero-wrapper">
       <div className="hero-brand-anchor" aria-hidden="true">
-        <div className="hero-brand-text">Tonet Studios</div>
+        <div className="hero-brand-text">TONET PARIS</div>
       </div>
 
       {/* Block 1: Split 2 images */}

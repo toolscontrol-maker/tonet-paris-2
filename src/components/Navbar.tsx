@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUI } from "@/context/UIContext";
@@ -19,21 +19,38 @@ export default function Navbar() {
 
   const isHome = pathname === "/";
   const isProduct = pathname.startsWith("/product/");
+  const isCollection = pathname.startsWith("/collection/");
+  const hasSubnav = isProduct || isCollection;
+
+  const [collections, setCollections] = useState<{handle: string; title: string}[]>([]);
+  useEffect(() => {
+    if (!hasSubnav) return;
+    const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
+    const token = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_PUBLIC_TOKEN;
+    if (!domain || !token) return;
+    fetch(`https://${domain}/api/2024-10/graphql.json`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': token },
+      body: JSON.stringify({ query: '{ collections(first: 10) { edges { node { handle title } } } }' }),
+    })
+      .then(r => r.json())
+      .then(d => setCollections(d.data?.collections?.edges?.map((e: any) => ({ handle: e.node.handle, title: e.node.title })) ?? []))
+      .catch(() => {});
+  }, [hasSubnav]);
+
+  const currentCollectionHandle = isCollection ? pathname.split('/collection/')[1]?.split('/')[0] : '';
+  const [subnavOpen, setSubnavOpen] = useState(false);
+  const currentCollection = collections.find(c => c.handle === currentCollectionHandle);
 
   // All pages now start below the header, ensuring it doesn't overlap content.
   useEffect(() => {
     const body = document.body;
-    if (isProduct) {
-      body.style.paddingTop = "88px";
-    } else {
-      body.style.paddingTop = "48px";
-    }
+    body.style.paddingTop = hasSubnav ? "100px" : "48px";
 
-    // Return to default padding on unmount
     return () => {
       body.style.paddingTop = "48px";
     };
-  }, [isProduct]);
+  }, [hasSubnav]);
 
   const solid = true;
 
@@ -69,8 +86,7 @@ export default function Navbar() {
 
           {!isHome && (
             <Link href="/" className="acne-logo">
-              <span className="acne-logo-star">★</span>
-              <span className="acne-logo-text">Tonet Studios<sup>®</sup></span>
+              <span className="acne-logo-text">TONET PARIS<sup>®</sup></span>
             </Link>
           )}
 
@@ -117,7 +133,7 @@ export default function Navbar() {
         </div>
 
         {/* ── SECONDARY STICKY NAV (Product Only) ── */}
-        {isProduct && (
+        {(isProduct || isCollection) && (
           <div className="acne-subnav">
             <div className="acne-subnav-inner">
               <Link href="/" className="back-link">
@@ -126,15 +142,30 @@ export default function Navbar() {
                 </svg>
                 <span>{t('nav.gallery')}</span>
               </Link>
-              <div className="subnav-links desktop-only">
-                <Link href="#">{t('nav.allCollections')}</Link>
-                <Link href="#">{t('nav.newArrival')}</Link>
-                <Link href="#" className="active">{t('nav.abstracts')}</Link>
-                <Link href="#">{t('nav.portraits')}</Link>
+              <div className="subnav-right">
+                {currentCollection && (
+                  <span className="subnav-current">{currentCollection.title}</span>
+                )}
+                <button className="subnav-toggle" onClick={() => setSubnavOpen(!subnavOpen)} aria-label="All collections">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d={subnavOpen ? "M1 7L5 3L9 7" : "M1 3L5 7L9 3"} />
+                  </svg>
+                </button>
               </div>
-              <div className="subnav-mobile mobile-only">
-                <span>{t('nav.abstracts')}</span>
-              </div>
+              {subnavOpen && (
+                <div className="subnav-dropdown">
+                  {collections.map(c => (
+                    <Link
+                      key={c.handle}
+                      href={`/collection/${c.handle}`}
+                      className={`subnav-drop-item${currentCollectionHandle === c.handle ? ' active' : ''}`}
+                      onClick={() => setSubnavOpen(false)}
+                    >
+                      {c.title}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -152,7 +183,7 @@ export default function Navbar() {
           background: transparent;
         }
         .acne-header.solid {
-          background: #FAF8F5;
+          background: #ffffff;
           border-bottom: 1px solid #ededed;
         }
 
@@ -173,10 +204,11 @@ export default function Navbar() {
           z-index: 1;
           text-decoration: none;
           display: flex;
-          align-items: center;
+          align-items: baseline;
           gap: 8px;
           color: #000;
           white-space: nowrap;
+          line-height: 1;
         }
         .acne-logo-star {
           font-size: 34px;
@@ -184,11 +216,12 @@ export default function Navbar() {
           color: #000;
         }
         .acne-logo-text {
-          font-family: 'HK Grotesk', 'Inter', sans-serif;
-          font-size: 30px;
-          font-weight: 500;
+          font-family: var(--font-brand);
+          font-size: 37.5px;
+          font-weight: normal;
           letter-spacing: 0.01em;
           color: #000;
+          line-height: 60px;
         }
         .acne-logo-text sup {
           font-size: 9px;
@@ -242,7 +275,7 @@ export default function Navbar() {
         /* ── SUBNAV ── */
         .acne-subnav {
           height: 40px;
-          background: #FAF8F5;
+          background: #ffffff;
           border-top: 1px solid #ededed;
           border-bottom: 1px solid #ededed;
           display: flex;
@@ -255,6 +288,7 @@ export default function Navbar() {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          position: relative;
         }
         .back-link {
           display: flex;
@@ -266,19 +300,54 @@ export default function Navbar() {
           letter-spacing: 0.08em;
           color: #000;
         }
-        .subnav-links {
+        .subnav-right {
           display: flex;
-          gap: 24px;
+          align-items: center;
+          gap: 8px;
         }
-        .subnav-links a {
+        .subnav-current {
+          font-size: 11px;
+          font-weight: 500;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: #000;
+        }
+        .subnav-toggle {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 4px;
+          display: flex;
+          align-items: center;
+          color: #000;
+        }
+        .subnav-dropdown {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          background: #ffffff;
+          border: 1px solid #ededed;
+          border-top: none;
+          display: flex;
+          flex-direction: column;
+          min-width: 200px;
+          z-index: 600;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .subnav-drop-item {
+          padding: 12px 20px;
           font-size: 11px;
           font-weight: 400;
           text-transform: uppercase;
           letter-spacing: 0.08em;
           color: #768194;
+          text-decoration: none;
+          border-bottom: 1px solid #f0f0f0;
+          transition: background 0.12s, color 0.12s;
         }
-        .subnav-links a.active { color: #000; font-weight: 500; }
-        .subnav-mobile span { font-size: 11px; text-transform: uppercase; font-weight: 500; }
+        .subnav-drop-item:last-child { border-bottom: none; }
+        .subnav-drop-item:hover { background: #f8f8f8; color: #000; }
+        .subnav-drop-item.active { color: #000; font-weight: 500; }
 
         .desktop-only { display: flex !important; }
         .mobile-only  { display: none !important; }
@@ -297,7 +366,7 @@ export default function Navbar() {
             flex-shrink: 0;
           }
           .acne-logo-text {
-            font-size: 20px;
+            font-size: 25px;
             letter-spacing: 0.04em;
             overflow: hidden;
             text-overflow: ellipsis;

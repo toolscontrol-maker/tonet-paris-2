@@ -151,7 +151,7 @@ export default function MenuDrawer() {
           bottom: 0;
           width: 90vw;
           max-width: 440px;
-          background: #FAF8F5;
+          background: #ffffff;
           color: #000;
           z-index: 1001;
           transform: translateX(-100%);
@@ -184,7 +184,9 @@ export default function MenuDrawer() {
         }
         
         .md-brand {
-          font-weight: 500;
+          font-family: var(--font-brand);
+          font-size: 16px;
+          font-weight: normal;
           text-decoration: none;
           color: #000;
         }
@@ -212,7 +214,7 @@ export default function MenuDrawer() {
           font-size: 11.5px;
           color: #000;
           text-decoration: none;
-          background: #FAF8F5;
+          background: #ffffff;
           border-left: none;
           border-right: none;
           border-top: none;

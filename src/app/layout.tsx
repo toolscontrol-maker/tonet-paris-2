@@ -18,8 +18,11 @@ import MenuDrawer from "@/components/MenuDrawer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Tonet Studios",
-  description: "Tonet Studios — Online Store",
+  title: "TONET PARIS",
+  description: "TONET PARIS — Online Store",
+  icons: {
+    icon: '/icon.png',
+  },
 };
 
 export default async function RootLayout({

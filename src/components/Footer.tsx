@@ -162,7 +162,7 @@ export default function Footer() {
 
       <style>{`
         .footer {
-          background-color: #FAF8F5;
+          background-color: #ffffff;
           color: #000;
           font-family: 'HK Grotesk', 'Inter', sans-serif;
           font-size: 11px;
@@ -352,7 +352,9 @@ export default function Footer() {
         }
 
         .copyright {
-          text-transform: uppercase;
+          font-family: var(--font-brand);
+          font-size: 14px;
+          text-transform: none;
           color: #000;
         }
         

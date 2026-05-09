@@ -349,7 +349,7 @@ export default function CollectionClient({ collection }: { collection: Collectio
           aspect-ratio: 3 / 4;
           object-fit: contain;
           display: block;
-          background: #f5f5f5;
+          background: #ffffff;
         }
         /* Rectangle indicators — overlaid bottom-left of image */
         .col-gallery-dots {
@@ -457,7 +457,7 @@ export default function CollectionClient({ collection }: { collection: Collectio
           border: none;
           border-right: 1px solid #e0e0e0;
           border-radius: 0;
-          background: #FAF8F5;
+          background: #ffffff;
           cursor: pointer;
           color: #111;
           min-width: 44px;
@@ -514,7 +514,7 @@ export default function CollectionClient({ collection }: { collection: Collectio
           border: none;
           border-left: 1px solid #111;
           border-radius: 0;
-          background: #FAF8F5;
+          background: #ffffff;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -556,7 +556,7 @@ export default function CollectionClient({ collection }: { collection: Collectio
           left: 0;
           right: 0;
           height: 2em;
-          background: linear-gradient(to bottom, rgba(250,248,245,0) 0%, rgba(250,248,245,1) 100%);
+          background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
           pointer-events: none;
         }
         .col-desc-toggle {
@@ -584,10 +584,10 @@ export default function CollectionClient({ collection }: { collection: Collectio
         .col-mobile-sticky {
           position: fixed;
           bottom: 0; left: 0; right: 0;
-          display: flex;
+          display: none;
           padding: 0;
           padding-bottom: env(safe-area-inset-bottom, 0px);
-          background: #FAF8F5;
+          background: #ffffff;
           border-top: 1px solid #ededed;
           z-index: 200;
           gap: 0;
@@ -629,15 +629,16 @@ export default function CollectionClient({ collection }: { collection: Collectio
             aspect-ratio: 3 / 4;
             object-fit: contain;
             display: block;
-            background: #f5f5f5;
+            background: #ffffff;
           }
           .col-gallery-dots { display: none; }
 
           .col-info {
             position: sticky;
-            top: 120px;
+            top: 100px;
             padding: 0 48px 80px 48px;
-            max-height: calc(100vh - 120px);
+            max-height: calc(100vh - 100px);
+            overflow-x: hidden;
             overflow-y: auto;
             scrollbar-width: none;
           }
@@ -647,7 +648,7 @@ export default function CollectionClient({ collection }: { collection: Collectio
             position: sticky;
             top: 0;
             z-index: 5;
-            background: #FAF8F5;
+            background: #ffffff;
             padding-top: 40px;
             padding-bottom: 12px;
             margin: 0 -48px;

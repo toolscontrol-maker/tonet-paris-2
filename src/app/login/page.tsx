@@ -206,7 +206,7 @@ export default function LoginPage() {
           display: flex;
           justify-content: center;
           padding: 80px 20px;
-          background: #FAF8F5;
+          background: #ffffff;
           color: #000;
           font-family: Arial, Helvetica, sans-serif;
         }
@@ -301,7 +301,7 @@ export default function LoginPage() {
         }
 
         .btn-continue:hover {
-          background: #FAF8F5;
+          background: #ffffff;
           color: #000;
         }
 
@@ -323,7 +323,7 @@ export default function LoginPage() {
         }
 
         .login-divider span {
-          background: #FAF8F5;
+          background: #ffffff;
           padding: 0 16px;
           color: #888;
           font-size: 11px;
@@ -334,7 +334,7 @@ export default function LoginPage() {
 
         .btn-google {
           width: 100%;
-          background: #FAF8F5;
+          background: #ffffff;
           border: 1px solid #111;
           color: #000;
           padding: 16px;
