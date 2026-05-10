@@ -377,7 +377,8 @@ export default function Navbar() {
             transform: translate(-50%, -50%);
             gap: 6px;
             max-width: calc(100vw - 120px);
-            overflow: hidden;
+            display: flex;
+            align-items: center;
           }
           .acne-logo-star {
             font-size: 26px;
@@ -386,12 +387,13 @@ export default function Navbar() {
           .acne-logo-text {
             font-size: 25px;
             letter-spacing: 0.04em;
-            overflow: hidden;
-            text-overflow: ellipsis;
             white-space: nowrap;
+            padding-bottom: 2px;
+            display: block;
           }
-          .acne-bag-btn { padding: 0 14px; height: 100%; }
-          .acne-icon-btn { height: 100%; }
+          .acne-icon-btn { padding: 0; width: 44px; justify-content: center; height: 100%; }
+          .acne-bag-btn { padding: 0; width: 44px; justify-content: center; gap: 4px; height: 100%; }
+          .bag-count { font-size: 10px; letter-spacing: 0; }
           .acne-text-btn { height: 100%; }
           .acne-nav-left { align-items: stretch; }
           .acne-nav-right { align-items: stretch; }

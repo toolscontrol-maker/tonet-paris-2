@@ -335,7 +335,17 @@ export default function ProductClient({ product }: Props) {
             <p style={{ marginTop: '14px' }}>{t('common.drawerGiftNote2')}</p>
           </ProductInfoDrawer>
 
-          <TranslatedDesc text={product.description} className="pdp-desc" />
+          <div className="pdp-desc-wrapper">
+            <TranslatedDesc text={product.description} className={`pdp-desc${showMoreDetails ? ' expanded' : ''}`} />
+            {product.description && product.description.length > 200 && (
+              <>
+                {!showMoreDetails && <div className="pdp-desc-blur" />}
+                <button className="pdp-show-more" onClick={() => setShowMoreDetails(prev => !prev)}>
+                  {showMoreDetails ? 'Show less' : 'Show more'}
+                </button>
+              </>
+            )}
+          </div>
 
           <div className="pdp-need-help">
             <Link href="/contact">{t('common.needHelp')}</Link>
@@ -766,7 +776,32 @@ export default function ProductClient({ product }: Props) {
         }
 
 
-        .pdp-desc { margin: 20px 0 16px 0; font-size: 12px; font-weight: 400; line-height: 1.75; letter-spacing: 0.01em; }
+        .pdp-desc-wrapper { position: relative; margin: 20px 0 0 0; }
+        .pdp-desc {
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 1.75;
+          letter-spacing: 0.01em;
+          margin: 0;
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .pdp-desc.expanded {
+          display: block;
+          -webkit-line-clamp: unset;
+          overflow: visible;
+        }
+        .pdp-desc-blur {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 48px;
+          background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.95));
+          pointer-events: none;
+        }
         .pdp-details { list-style: none; padding: 0; margin: 0 0 8px 0; font-size: 11px; font-weight: 400; line-height: 1.9; letter-spacing: 0.02em; }
         .pdp-details .faded { color: #bbb; }
         .pdp-show-more {

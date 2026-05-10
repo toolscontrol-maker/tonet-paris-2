@@ -11,7 +11,10 @@ export default function Footer() {
   const isMinimalPage = pathname === "/login"
     || pathname === "/wishlist"
     || pathname === "/contact"
-    || pathname.startsWith("/account");
+    || pathname?.startsWith("/account");
+  
+  const isProductPage = pathname?.startsWith("/product") || pathname?.startsWith("/collection");
+  const hidePromos = isMinimalPage || isProductPage;
   const { t } = useTranslation();
   const { region, language, openSelector } = useLocale();
   const shippingLabel = t('locale.shippingTo', {
@@ -22,9 +25,8 @@ export default function Footer() {
   return (
     <footer className="footer">
       
-      {!isMinimalPage && (
-        <>
-          <div className="footer-promos">
+      {!hidePromos && (
+        <div className="footer-promos">
             <Link href="#" className="promo-card">
               <div className="promo-image">
                 <img src="https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Shipping" />
@@ -70,16 +72,17 @@ export default function Footer() {
                 <p>{t('footer.storesDesc')}</p>
               </div>
             </Link>
-          </div>
+        </div>
+      )}
 
-          <div className="footer-newsletter">
+      {!isMinimalPage && (
+        <div className="footer-newsletter">
             <h3>{t('footer.newsletter')}</h3>
             <p>{t('footer.newsletterDesc')}</p>
             <div className="newsletter-input-wrapper">
               <input type="email" placeholder={t('footer.emailPlaceholder')} />
             </div>
-          </div>
-        </>
+        </div>
       )}
 
       <div className="footer-links-container">
