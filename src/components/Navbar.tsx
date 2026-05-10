@@ -45,12 +45,16 @@ export default function Navbar() {
   // All pages now start below the header, ensuring it doesn't overlap content.
   useEffect(() => {
     const body = document.body;
-    body.style.paddingTop = hasSubnav ? "100px" : "48px";
+    if (isHome) {
+      body.style.paddingTop = '0';
+    } else {
+      body.style.paddingTop = hasSubnav ? "100px" : "60px";
+    }
 
     return () => {
-      body.style.paddingTop = "48px";
+      body.style.paddingTop = "60px";
     };
-  }, [hasSubnav]);
+  }, [hasSubnav, isHome]);
 
   const solid = true;
 

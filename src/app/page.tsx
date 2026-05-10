@@ -2,8 +2,19 @@ import Link from 'next/link';
 import { getProducts } from '@/lib/shopify';
 import HeroSection from '@/components/HeroSection';
 
+export const dynamic = 'force-dynamic';
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 export default async function Home() {
-  const products = await getProducts();
+  const products = shuffle(await getProducts());
 
   return (
     <>
@@ -39,9 +50,14 @@ export default async function Home() {
            HERO — 2 blocks of 125vh, Tonet Paris style
         ═══════════════════════════════════════════════════ */
 
+        /* Force the hero to start at the very top with no gap */
+        body { padding-top: 0 !important; }
+        main { margin-top: 0 !important; padding-top: 0 !important; }
+
         .hero-wrapper {
           display: flex;
           flex-direction: column;
+          margin-top: 0;
         }
 
         .hero-block {
@@ -121,6 +137,8 @@ export default async function Home() {
           background: #ffffff;
           position: relative;
           z-index: 10;
+          margin-bottom: 0;
+          padding-bottom: 0;
         }
 
         .shop-grid {
@@ -163,13 +181,8 @@ export default async function Home() {
 
         .shop-product {
           display: block;
-          padding: 48px 15% 32px;
+          padding: 32px 15% 0;
           text-decoration: none;
-          transition: background 0.2s ease;
-        }
-
-        .shop-product:hover {
-          background: #e8e8e8;
         }
 
         /* Image wrapper: portrait 3:4 ratio, float-like appearance */

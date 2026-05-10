@@ -77,7 +77,7 @@ body {
   letter-spacing: var(--tk-tight);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: 48px;
+  padding-top: 0;
 }
 
 
