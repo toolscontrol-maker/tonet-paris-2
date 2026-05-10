@@ -49,11 +49,11 @@ export default function Navbar() {
     if (isHome) {
       body.style.paddingTop = '0';
     } else {
-      body.style.paddingTop = hasSubnav ? "100px" : "60px";
+      body.style.paddingTop = hasSubnav ? "87px" : "47px";
     }
 
     return () => {
-      body.style.paddingTop = "60px";
+      body.style.paddingTop = "47px";
     };
   }, [hasSubnav, isHome]);
 
@@ -67,9 +67,9 @@ export default function Navbar() {
           <div className="acne-nav-left">
             <nav className="acne-nav-links desktop-only">
               <Link href="/tag/new-in" className={isTag && pathname.includes('/tag/new-in') ? 'nav-active' : ''}>New In</Link>
-              <Link href="/tag/runway" className={isTag && pathname.includes('/tag/runway') ? 'nav-active' : ''}>Runway</Link>
               <Link href="/tag/mujer" className={isTag && pathname.includes('/tag/mujer') ? 'nav-active' : ''}>Mujer</Link>
               <Link href="/tag/hombre" className={isTag && pathname.includes('/tag/hombre') ? 'nav-active' : ''}>Hombre</Link>
+              <Link href="/tag/runway" className={isTag && pathname.includes('/tag/runway') ? 'nav-active' : ''}>Runway</Link>
               <Link href="/tag/daily" className={isTag && pathname.includes('/tag/daily') ? 'nav-active' : ''}>Daily</Link>
             </nav>
             <div className="acne-mobile-left mobile-only">
@@ -197,8 +197,8 @@ export default function Navbar() {
           display: flex;
           align-items: stretch;
           justify-content: space-between;
-          height: 60px;
-          padding: 0 20px;
+          height: 47px;
+          padding: 0 10px;
           position: relative;
         }
 
@@ -227,7 +227,7 @@ export default function Navbar() {
           font-weight: normal;
           letter-spacing: 0.01em;
           color: #000;
-          line-height: 60px;
+          line-height: 1;
         }
         .acne-logo-text sup {
           font-size: 9px;
@@ -240,7 +240,7 @@ export default function Navbar() {
         .acne-nav-links a {
           font-size: 11px;
           font-family: 'HK Grotesk', 'Inter', sans-serif;
-          font-weight: 500;
+          font-weight: 400;
           text-transform: uppercase;
           text-decoration: none;
           color: #000;
@@ -263,7 +263,7 @@ export default function Navbar() {
           display: flex; align-items: center; gap: 5px;
           font-size: 11px;
           font-family: 'HK Grotesk', 'Inter', sans-serif;
-          font-weight: 500;
+          font-weight: 400;
           text-transform: uppercase;
           color: #000;
           text-decoration: none;
@@ -277,7 +277,7 @@ export default function Navbar() {
           background: none; border: none; cursor: pointer; color: #000;
           padding: 0 0 0 12px; height: 100%;
         }
-        .bag-count { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+        .bag-count { font-size: 11px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; }
 
         .acne-icon-btn {
           display: flex; align-items: center; justify-content: center;
@@ -371,8 +371,10 @@ export default function Navbar() {
         @media (max-width: 767px) {
           .desktop-only { display: none !important; }
           .mobile-only  { display: flex !important; }
-          .acne-header-inner { padding: 0; height: 48px; }
+          .acne-header-inner { padding: 0; height: 48px; align-items: stretch; }
           .acne-logo {
+            top: 50%;
+            transform: translate(-50%, -50%);
             gap: 6px;
             max-width: calc(100vw - 120px);
             overflow: hidden;
@@ -388,7 +390,11 @@ export default function Navbar() {
             text-overflow: ellipsis;
             white-space: nowrap;
           }
-          .acne-bag-btn { padding: 0 14px; }
+          .acne-bag-btn { padding: 0 14px; height: 100%; }
+          .acne-icon-btn { height: 100%; }
+          .acne-text-btn { height: 100%; }
+          .acne-nav-left { align-items: stretch; }
+          .acne-nav-right { align-items: stretch; }
           .acne-subnav-inner { padding: 0 16px; }
         }
       `}</style>

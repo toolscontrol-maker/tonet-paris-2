@@ -42,6 +42,14 @@ export default function ProductClient({ product }: Props) {
   );
   const [adding, setAdding] = useState(false);
   const [activeDrawer, setActiveDrawer] = useState<string | null>(null);
+  
+  // Notify Me Modal State
+  const [showNotifyModal, setShowNotifyModal] = useState(false);
+  const [notifySize, setNotifySize] = useState('');
+  const [notifyEmail, setNotifyEmail] = useState('');
+  const [notifyConsent1, setNotifyConsent1] = useState(false);
+  const [notifyConsent2, setNotifyConsent2] = useState(false);
+  const [notifyError, setNotifyError] = useState(false);
   const { t } = useTranslation();
   const { formatPrice } = useLocale();
   const { toggle, has } = useWishlist();
@@ -174,6 +182,21 @@ export default function ProductClient({ product }: Props) {
   }
 
   const STANDARD_SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+  const outOfStockSizes = STANDARD_SIZES.filter(size => !isSizeAvailable(size));
+
+  function handleNotifySubmit() {
+    if (!notifyEmail || !notifyConsent1) {
+      setNotifyError(true);
+      return;
+    }
+    setNotifyError(false);
+    // Simulate API call
+    setShowNotifyModal(false);
+    setNotifySize('');
+    setNotifyEmail('');
+    setNotifyConsent1(false);
+    setNotifyConsent2(false);
+  }
 
   return (
     <>
@@ -240,7 +263,11 @@ export default function ProductClient({ product }: Props) {
                   );
                 })}
               </div>
-              <p className="pdp-out-of-stock">Out of stock? <a href="mailto:contact@tonetparis.com" className="pdp-notify-link">Get notified</a></p>
+              {outOfStockSizes.length > 0 && (
+                <p className="pdp-out-of-stock">
+                  Out of stock? <button className="pdp-notify-link" onClick={() => setShowNotifyModal(true)}>Get notified</button>
+                </p>
+              )}
             </>
           ) : hasMultipleVariants && (
             <div className="pdp-variants">
@@ -328,20 +355,80 @@ export default function ProductClient({ product }: Props) {
         </section>
       )}
 
-      <div className="pdp-mobile-sticky">
-        <button
-          className="pdp-atb-btn"
-          onClick={handleAddToBag}
-          disabled={adding || !selectedVariant.availableForSale}
-        >
-          {adding ? t('common.adding') : selectedVariant.availableForSale ? t('common.addToBag') : t('common.soldOut')}
-        </button>
-        <button className="pdp-wish-btn" aria-label="Add to wishlist" onClick={() => toggle(wishlistItem)}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill={inWishlist ? '#111' : 'none'} stroke="#111" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-          </svg>
-        </button>
-      </div>
+
+
+      {showNotifyModal && (
+        <div className="notify-modal-backdrop" onClick={() => setShowNotifyModal(false)}>
+          <div className="notify-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="notify-modal-header">
+              <span className="notify-modal-title">NOTIFY ME</span>
+              <button className="notify-modal-close" onClick={() => setShowNotifyModal(false)}>X CLOSE</button>
+            </div>
+            <div className="notify-modal-body">
+              <p className="notify-modal-desc">Select your size and we will email you when this product is back in stock.</p>
+              
+              <div className="notify-sizes-grid">
+                {outOfStockSizes.map((size) => (
+                  <button 
+                    key={size}
+                    className={`notify-size-btn ${notifySize === size ? 'active' : ''}`}
+                    onClick={() => setNotifySize(size)}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+
+              <div className={`notify-input-group ${notifyError && !notifyEmail ? 'has-error' : ''}`}>
+                <input 
+                  type="email" 
+                  placeholder="EMAIL ADDRESS" 
+                  className="notify-email-input" 
+                  value={notifyEmail}
+                  onChange={(e) => {
+                    setNotifyEmail(e.target.value);
+                    if (notifyError && e.target.value) setNotifyError(false);
+                  }}
+                />
+                {notifyError && !notifyEmail && <span className="notify-error-text">This field is required.</span>}
+              </div>
+
+              <div className="notify-checkbox-group">
+                <label className="notify-checkbox-label">
+                  <input type="checkbox" checked={notifyConsent1} onChange={(e) => {
+                    setNotifyConsent1(e.target.checked);
+                    if (notifyError && e.target.checked) setNotifyError(false);
+                  }} />
+                  <span className="checkmark"></span>
+                  <span className="checkbox-text">
+                    I confirm that I have read and understood the <a href="/privacy">Privacy Policy</a>
+                  </span>
+                </label>
+                {notifyError && !notifyConsent1 && <span className="notify-error-text" style={{marginLeft: '32px', display: 'block', marginTop: '-12px', marginBottom: '12px'}}>Privacy Policy consent is required.</span>}
+                
+                <label className="notify-checkbox-label">
+                  <input type="checkbox" checked={notifyConsent2} onChange={(e) => setNotifyConsent2(e.target.checked)} />
+                  <span className="checkmark"></span>
+                  <span className="checkbox-text">
+                    I would like to receive updates about new launches and other inspirational content
+                  </span>
+                </label>
+              </div>
+
+              <p className="notify-recaptcha">
+                This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noreferrer">Terms of Service</a> apply.
+              </p>
+
+              <button 
+                className="notify-submit-btn"
+                onClick={handleNotifySubmit}
+              >
+                NOTIFY ME
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         .pdp-layout {
@@ -358,7 +445,8 @@ export default function ProductClient({ product }: Props) {
         }
         .pdp-main-img {
           width: 100%;
-          height: 80vw;
+          aspect-ratio: 2 / 3;
+          height: auto;
           object-fit: contain;
           display: block;
           background: #ffffff;
@@ -455,8 +543,166 @@ export default function ProductClient({ product }: Props) {
           color: #666;
           margin: -8px 0 18px;
         }
-        .pdp-notify-link { color: #0000cc; text-decoration: none; }
+        .pdp-notify-link { 
+          color: #0000cc; 
+          text-decoration: none; 
+          background: none; 
+          border: none; 
+          padding: 0; 
+          font: inherit; 
+          cursor: pointer; 
+        }
         .pdp-notify-link:hover { text-decoration: underline; }
+
+        /* NOTIFY MODAL */
+        .notify-modal-backdrop {
+          position: fixed;
+          top: 0; left: 0; width: 100vw; height: 100vh;
+          background: rgba(0,0,0,0.4);
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+        }
+        .notify-modal-content {
+          background: #fff;
+          width: 100%;
+          max-width: 440px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+          font-family: 'HK Grotesk', 'Inter', sans-serif;
+        }
+        .notify-modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px 20px;
+          border-bottom: 1px solid #e0e0e0;
+        }
+        .notify-modal-title {
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 0.1em;
+        }
+        .notify-modal-close {
+          background: none; border: none; cursor: pointer;
+          font-size: 11px; font-weight: 500; color: #0000cc;
+          letter-spacing: 0.05em; padding: 0;
+        }
+        .notify-modal-body {
+          padding: 24px 20px;
+        }
+        .notify-modal-desc {
+          font-size: 12px;
+          line-height: 1.5;
+          margin: 0 0 20px 0;
+          color: #111;
+        }
+        .notify-sizes-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: -1px; /* To overlap borders */
+          border: 1px solid #e0e0e0;
+          margin-bottom: 24px;
+        }
+        .notify-size-btn {
+          background: #fff;
+          border: 1px solid #e0e0e0;
+          padding: 14px;
+          font-size: 12px;
+          text-align: left;
+          cursor: pointer;
+          color: #111;
+          margin-top: -1px;
+          margin-left: -1px;
+        }
+        .notify-size-btn:hover { background: #f5f5f5; }
+        .notify-size-btn.active { background: #f5f5f5; font-weight: 500; }
+        
+        .notify-input-group {
+          margin-bottom: 20px;
+        }
+        .notify-email-input {
+          width: 100%;
+          padding: 14px 16px;
+          font-size: 11px;
+          border: 1px solid #ccc;
+          outline: none;
+          font-family: inherit;
+          text-transform: uppercase;
+        }
+        .notify-email-input::placeholder { color: #888; }
+        .notify-input-group.has-error .notify-email-input {
+          border-color: #d0021b;
+          color: #d0021b;
+        }
+        .notify-input-group.has-error .notify-email-input::placeholder {
+          color: #d0021b;
+        }
+        .notify-error-text {
+          color: #d0021b;
+          font-size: 10px;
+          margin-top: 6px;
+          display: block;
+        }
+        .notify-checkbox-group {
+          margin-bottom: 20px;
+        }
+        .notify-checkbox-label {
+          display: flex;
+          align-items: flex-start;
+          margin-bottom: 16px;
+          cursor: pointer;
+          font-size: 11px;
+          line-height: 1.5;
+          color: #111;
+          position: relative;
+        }
+        .notify-checkbox-label input {
+          position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0;
+        }
+        .notify-checkbox-label .checkmark {
+          min-width: 18px;
+          height: 18px;
+          border: 1px solid #999;
+          margin-right: 12px;
+          display: flex; align-items: center; justify-content: center;
+          margin-top: -1px;
+        }
+        .notify-checkbox-label input:checked ~ .checkmark {
+          background: #111; border-color: #111;
+        }
+        .notify-checkbox-label input:checked ~ .checkmark:after {
+          content: "";
+          width: 4px; height: 8px;
+          border: solid white;
+          border-width: 0 1.5px 1.5px 0;
+          transform: rotate(45deg);
+          margin-bottom: 2px;
+        }
+        .notify-checkbox-label a { color: #0000cc; text-decoration: underline; }
+        
+        .notify-recaptcha {
+          font-size: 9px;
+          color: #666;
+          line-height: 1.4;
+          margin-bottom: 24px;
+        }
+        .notify-recaptcha a { color: #0000cc; text-decoration: underline; }
+
+        .notify-submit-btn {
+          width: 100%;
+          background: #000;
+          color: #fff;
+          border: none;
+          padding: 16px;
+          font-size: 11px;
+          font-weight: 500;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          cursor: pointer;
+        }
+        .notify-submit-btn:hover { background: #222; }
 
         /* Fallback variant buttons */
         .pdp-variants {
@@ -530,31 +776,6 @@ export default function ProductClient({ product }: Props) {
         .pdp-need-help a { color: #0000cc; font-size: 11px; font-weight: 400; letter-spacing: 0.04em; text-decoration: none; }
         .pdp-need-help a:hover { text-decoration: underline; }
 
-        .pdp-mobile-sticky {
-          position: fixed;
-          bottom: 0; left: 0; right: 0;
-          display: flex;
-          padding: 0;
-          padding-bottom: env(safe-area-inset-bottom, 0px);
-          background: #ffffff;
-          border-top: 1px solid #ededed;
-          z-index: 200;
-          gap: 0;
-          height: 56px;
-        }
-        .pdp-mobile-sticky .pdp-atb-btn {
-          flex: 1;
-          height: 100%;
-          border: none;
-          border-radius: 0;
-        }
-        .pdp-mobile-sticky .pdp-wish-btn {
-          border: none;
-          border-left: 1px solid #ededed;
-          height: 100%;
-          width: 56px;
-        }
-
         @media (min-width: 768px) {
           .pdp-breadcrumb {
             padding-top: 70px;
@@ -605,7 +826,7 @@ export default function ProductClient({ product }: Props) {
             margin-bottom: 36px;
           }
 
-          .pdp-mobile-sticky { display: none; }
+
         }
 
         /* ── RECOMMENDED ── */

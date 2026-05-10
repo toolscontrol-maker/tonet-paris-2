@@ -59,6 +59,17 @@ export default async function Home() {
           flex-direction: column;
           margin-top: 0;
           overflow: clip;
+          position: relative;
+        }
+
+        .hero-brand-anchor-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 10vw;
+          pointer-events: none;
+          z-index: 6;
         }
 
         .hero-block {
@@ -78,21 +89,15 @@ export default async function Home() {
           background-size: cover;
           background-position: center top;
           text-decoration: none;
-          transition: filter 0.4s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
           overflow: hidden;
           will-change: transform;
           transform: translateZ(0);
         }
 
-        .hero-panel:hover {
-          filter: brightness(0.88);
-          transform: scale(1.03) translateZ(0);
-        }
-
         .shop-label {
           position: absolute;
-          top: 120px;
-          left: 20px;
+          top: 12px;
+          left: 12px;
           color: rgba(255,255,255,0.92);
           font-size: 0.7rem;
           font-weight: 500;
@@ -101,17 +106,24 @@ export default async function Home() {
           z-index: 10;
         }
 
-        /* Sticky brand anchor — height:0 so it takes no layout space.
-           margin-bottom pushes the sticky stop-point up so the text
-           never bleeds past the hero section boundary. */
+        .hero-shop-now-suffix {
+          display: none;
+        }
+
+        .hero-panel:hover {
+          opacity: 1;
+        }
+
+        .hero-panel:hover .hero-shop-now-suffix {
+          display: inline;
+        }
+
+        /* Sticky brand anchor */
         .hero-brand-anchor {
           position: sticky;
           top: 50vh;
           height: 0;
-          margin-bottom: 10vw;
           overflow: visible;
-          z-index: 6;
-          pointer-events: none;
         }
 
         .hero-brand-text {
@@ -191,7 +203,7 @@ export default async function Home() {
         /* Image wrapper: portrait 3:4 ratio, float-like appearance */
         .shop-product-img {
           width: 100%;
-          aspect-ratio: 3 / 4;
+          aspect-ratio: 2 / 3;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -202,11 +214,6 @@ export default async function Home() {
           width: 100%;
           height: 100%;
           object-fit: contain;   /* show full product, floating look */
-          transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .shop-product:hover .shop-product-img img {
-          transform: scale(1.04);
         }
 
 

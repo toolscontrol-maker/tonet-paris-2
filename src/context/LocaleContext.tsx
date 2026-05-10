@@ -87,15 +87,15 @@ export function LocaleProvider({ children, initialLanguage }: ProviderProps) {
 
     if (pref) {
       setRegion(pref.region);
-      setLanguage(pref.language);
+      setLanguage('en');
       setRemember(pref.remember);
       setHasPreference(true);
     } else {
       const suggested = detectSuggestedLocale();
       setRegion(suggested.region);
-      setLanguage(suggested.language);
-      setHasPreference(false);
-      setSelectorOpen(true);
+      setLanguage('en');
+      setHasPreference(true);
+      setSelectorOpen(false);
     }
     setMounted(true);
   }, []);

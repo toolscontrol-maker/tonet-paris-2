@@ -44,41 +44,43 @@ export default function HeroSection() {
 
   return (
     <div className="hero-wrapper">
-      <div className="hero-brand-anchor" aria-hidden="true">
-        <div className="hero-brand-text">Tonet Paris</div>
+      <div className="hero-brand-anchor-container" aria-hidden="true">
+        <div className="hero-brand-anchor">
+          <div className="hero-brand-text">Tonet Paris</div>
+        </div>
       </div>
 
       {/* Block 1: Split 2 images */}
       <div className="hero-block hero-block--split">
         <Link href="#" className="hero-panel" style={{ backgroundImage: `url('${images[0]}')` }}>
-          <span className="shop-label">{LABELS[0]}</span>
+          <span className="shop-label">{LABELS[0]}<span className="hero-shop-now-suffix"> › SHOP NOW</span></span>
         </Link>
         <Link href="#" className="hero-panel" style={{ backgroundImage: `url('${images[1]}')` }}>
-          <span className="shop-label">{LABELS[1]}</span>
+          <span className="shop-label">{LABELS[1]}<span className="hero-shop-now-suffix"> › SHOP NOW</span></span>
         </Link>
       </div>
 
       {/* Block 2: Split 2 images */}
       <div className="hero-block hero-block--split">
         <Link href="#" className="hero-panel" style={{ backgroundImage: `url('${images[2]}')` }}>
-          <span className="shop-label">{LABELS[2]}</span>
+          <span className="shop-label">{LABELS[2]}<span className="hero-shop-now-suffix"> › SHOP NOW</span></span>
         </Link>
         <Link href="#" className="hero-panel" style={{ backgroundImage: `url('${images[3]}')` }}>
-          <span className="shop-label">{LABELS[3]}</span>
+          <span className="shop-label">{LABELS[3]}<span className="hero-shop-now-suffix"> › SHOP NOW</span></span>
         </Link>
       </div>
 
       {/* Block 3: Full width */}
       <div className="hero-block hero-block--full">
         <Link href="#" className="hero-panel" style={{ backgroundImage: `url('${images[4]}')` }}>
-          <span className="shop-label">{LABELS[4]}</span>
+          <span className="shop-label">{LABELS[4]}<span className="hero-shop-now-suffix"> › SHOP NOW</span></span>
         </Link>
       </div>
 
       {/* Block 4: Full width */}
       <div className="hero-block hero-block--full">
         <Link href="#" className="hero-panel" style={{ backgroundImage: `url('${images[5]}')` }}>
-          <span className="shop-label">{LABELS[5]}</span>
+          <span className="shop-label">{LABELS[5]}<span className="hero-shop-now-suffix"> › SHOP NOW</span></span>
         </Link>
       </div>
     </div>

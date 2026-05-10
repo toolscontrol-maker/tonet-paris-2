@@ -66,11 +66,6 @@ export default function MenuDrawer() {
             <span className="md-arrow">&gt;</span>
           </Link>
 
-          <Link href="/tag/runway" className="md-item justify-between" onClick={closeMenu}>
-            <span>Runway</span>
-            <span className="md-arrow">&gt;</span>
-          </Link>
-
           <Link href="/tag/mujer" className="md-item justify-between" onClick={closeMenu}>
             <span>Mujer</span>
             <span className="md-arrow">&gt;</span>
@@ -78,6 +73,11 @@ export default function MenuDrawer() {
 
           <Link href="/tag/hombre" className="md-item justify-between" onClick={closeMenu}>
             <span>Hombre</span>
+            <span className="md-arrow">&gt;</span>
+          </Link>
+
+          <Link href="/tag/runway" className="md-item justify-between" onClick={closeMenu}>
+            <span>Runway</span>
             <span className="md-arrow">&gt;</span>
           </Link>
 
@@ -107,9 +107,9 @@ export default function MenuDrawer() {
             <span>{t('menu.stores')}</span>
           </Link>
 
-          <button className="md-item" onClick={() => { closeMenu(); openSelector(); }}>
+          {/* <button className="md-item" onClick={() => { closeMenu(); openSelector(); }}>
             <span>{shippingLabel}</span>
-          </button>
+          </button> */}
 
           <div className="md-spacer"></div>
 

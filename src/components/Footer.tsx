@@ -136,9 +136,9 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <div className="bottom-shipping mobile-only-block" style={{ marginBottom: "24px" }}>
+        {/* <div className="bottom-shipping mobile-only-block" style={{ marginBottom: "24px" }}>
           <button className="shipping-link" onClick={openSelector}>{shippingLabel}</button>
-        </div>
+        </div> */}
 
         <div className="bottom-left">
           <span className="copyright desktop-only">{t('footer.copyright')}</span>
@@ -155,9 +155,9 @@ export default function Footer() {
           <Link href="#">WB</Link>
         </div>
         
-        <div className="bottom-right desktop-only-block">
+        {/* <div className="bottom-right desktop-only-block">
           <button className="shipping-link" onClick={openSelector}>{shippingLabel}</button>
-        </div>
+        </div> */}
       </div>
 
       <style>{`

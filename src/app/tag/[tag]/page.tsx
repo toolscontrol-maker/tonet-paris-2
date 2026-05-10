@@ -155,7 +155,7 @@ export default async function TagPage({
 
         .shop-product-img {
           width: 100%;
-          aspect-ratio: 3 / 4;
+          aspect-ratio: 2 / 3;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -166,11 +166,6 @@ export default async function TagPage({
           width: 100%;
           height: 100%;
           object-fit: contain;
-          transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .shop-product:hover .shop-product-img img {
-          transform: scale(1.04);
         }
 
         @media (max-width: 767px) {
