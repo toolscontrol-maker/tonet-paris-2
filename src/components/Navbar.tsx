@@ -20,6 +20,7 @@ export default function Navbar() {
   const isHome = pathname === "/";
   const isProduct = pathname.startsWith("/product/");
   const isCollection = pathname.startsWith("/collection/");
+  const isTag = pathname.startsWith("/tag/");
   const hasSubnav = isProduct || isCollection;
 
   const [collections, setCollections] = useState<{handle: string; title: string}[]>([]);
@@ -65,10 +66,11 @@ export default function Navbar() {
           {/* LEFT: Nav links (desktop) | Hamburger (mobile) */}
           <div className="acne-nav-left">
             <nav className="acne-nav-links desktop-only">
-              <Link href="/">{t('nav.woman')}</Link>
-              <Link href="/">{t('nav.man')}</Link>
-              <Link href="/">{t('nav.bags')}</Link>
-              <Link href="/">{t('nav.runway')}</Link>
+              <Link href="/tag/new-in" className={isTag && pathname.includes('/tag/new-in') ? 'nav-active' : ''}>New In</Link>
+              <Link href="/tag/runway" className={isTag && pathname.includes('/tag/runway') ? 'nav-active' : ''}>Runway</Link>
+              <Link href="/tag/mujer" className={isTag && pathname.includes('/tag/mujer') ? 'nav-active' : ''}>Mujer</Link>
+              <Link href="/tag/hombre" className={isTag && pathname.includes('/tag/hombre') ? 'nav-active' : ''}>Hombre</Link>
+              <Link href="/tag/daily" className={isTag && pathname.includes('/tag/daily') ? 'nav-active' : ''}>Daily</Link>
             </nav>
             <div className="acne-mobile-left mobile-only">
               <button className="acne-icon-btn" aria-label="Menu" onClick={openMenu}>
@@ -244,6 +246,16 @@ export default function Navbar() {
           color: #000;
           letter-spacing: 0.10em;
           line-height: 1.2;
+          position: relative;
+        }
+        .acne-nav-links a.nav-active::after {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: #000;
         }
 
         .acne-nav-right { flex: 1; display: flex; align-items: stretch; justify-content: flex-end; }

@@ -58,6 +58,7 @@ export default async function Home() {
           display: flex;
           flex-direction: column;
           margin-top: 0;
+          overflow: clip;
         }
 
         .hero-block {
@@ -100,15 +101,17 @@ export default async function Home() {
           z-index: 10;
         }
 
-        /* Sticky brand anchor */
+        /* Sticky brand anchor — height:0 so it takes no layout space.
+           margin-bottom pushes the sticky stop-point up so the text
+           never bleeds past the hero section boundary. */
         .hero-brand-anchor {
           position: sticky;
           top: 50vh;
           height: 0;
+          margin-bottom: 10vw;
           overflow: visible;
           z-index: 6;
           pointer-events: none;
-          margin-bottom: 15vh;
         }
 
         .hero-brand-text {

@@ -307,6 +307,18 @@ export async function getRecommendedProducts(
     .slice(0, count);
 }
 
+export async function getProductsByTag(tag: string): Promise<Product[]> {
+  const data = await shopifyFetch<{ products: { edges: { node: Record<string, any> }[] } }>(
+    `query GetProductsByTag($query: String!) {
+      products(first: 250, query: $query) {
+        edges { node { ${PRODUCT_FIELDS} } }
+      }
+    }`,
+    { query: `tag:${tag}` }
+  );
+  return data.products.edges.map(e => normalizeProduct(e.node));
+}
+
 export async function getProduct(handle: string): Promise<Product | null> {
   const data = await shopifyFetch<{ productByHandle: Record<string, any> | null }>(
     `query GetProduct($handle: String!) { productByHandle(handle: $handle) { ${PRODUCT_FIELDS} } }`,

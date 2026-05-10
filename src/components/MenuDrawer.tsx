@@ -61,23 +61,29 @@ export default function MenuDrawer() {
             </svg>
           </button>
 
-          <Link href="#" className="md-item justify-between" onClick={closeMenu}>
-            <span>{t('menu.woman')}</span>
+          <Link href="/tag/new-in" className="md-item justify-between" onClick={closeMenu}>
+            <span>New In</span>
             <span className="md-arrow">&gt;</span>
           </Link>
-          
-          <Link href="#" className="md-item justify-between" onClick={closeMenu}>
-            <span>{t('menu.man')}</span>
+
+          <Link href="/tag/runway" className="md-item justify-between" onClick={closeMenu}>
+            <span>Runway</span>
             <span className="md-arrow">&gt;</span>
           </Link>
-          
-          <Link href="#" className="md-item justify-between" onClick={closeMenu}>
-            <span>{t('menu.bags')}</span>
+
+          <Link href="/tag/mujer" className="md-item justify-between" onClick={closeMenu}>
+            <span>Mujer</span>
             <span className="md-arrow">&gt;</span>
           </Link>
-          
-          <Link href="#" className="md-item" onClick={closeMenu}>
-            <span>{t('menu.runway')}</span>
+
+          <Link href="/tag/hombre" className="md-item justify-between" onClick={closeMenu}>
+            <span>Hombre</span>
+            <span className="md-arrow">&gt;</span>
+          </Link>
+
+          <Link href="/tag/daily" className="md-item justify-between" onClick={closeMenu}>
+            <span>Daily</span>
+            <span className="md-arrow">&gt;</span>
           </Link>
 
           <div className="md-spacer"></div>
