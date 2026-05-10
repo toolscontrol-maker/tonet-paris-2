@@ -45,7 +45,7 @@ export default function HeroSection() {
   return (
     <div className="hero-wrapper">
       <div className="hero-brand-anchor" aria-hidden="true">
-        <div className="hero-brand-text">TONET PARIS</div>
+        <div className="hero-brand-text">Tonet Paris</div>
       </div>
 
       {/* Block 1: Split 2 images */}

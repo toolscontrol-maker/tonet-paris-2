@@ -13,7 +13,7 @@ export default async function Home() {
       {/* ─── PRODUCTS SECTION ─── */}
       <section className="shop-section" id="gallery">
         <div className="shop-grid">
-          {products.map((product) => (
+          {products.slice(0, 4).map((product) => (
             <Link
               key={product.handle}
               href={`/product/${product.handle}`}
@@ -92,6 +92,7 @@ export default async function Home() {
           overflow: visible;
           z-index: 6;
           pointer-events: none;
+          margin-bottom: 15vh;
         }
 
         .hero-brand-text {
@@ -100,11 +101,11 @@ export default async function Home() {
           left: 50%;
           transform: translate(-50%, -50%);
           font-family: var(--font-brand);
-          font-size: clamp(3rem, 10vw, 13rem);
+          font-size: clamp(2rem, 16vw, 18rem);
           font-weight: normal;
           color: #000;
           white-space: nowrap;
-          letter-spacing: -0.055em;
+          letter-spacing: -0.02em;
           pointer-events: none;
         }
 
@@ -124,10 +125,12 @@ export default async function Home() {
 
         .shop-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(4, minmax(0, 1fr));
         }
 
-        .shop-col {}
+        .shop-col {
+          min-width: 0;
+        }
         .shop-col-link {
           display: block;
           text-decoration: none;
@@ -146,6 +149,8 @@ export default async function Home() {
           color: #000;
           text-align: left;
           white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .shop-now-suffix {
@@ -198,17 +203,22 @@ export default async function Home() {
            MOBILE — 2 columns, labels not sticky
         ═══════════════════════════════════════════════════ */
         @media (max-width: 767px) {
+          .shop-col {
+            flex: 0 0 50vw;
+            width: 50vw;
+          }
           /* Hero */
           .hero-block { height: auto; }
           .hero-block--split { flex-direction: column; }
           .hero-block--split .hero-panel { height: 125vw; flex: none; }
           .hero-block--full  .hero-panel { height: 125vw; }
-          .hero-brand-text { font-size: 13vw; }
+          .hero-brand-text { font-size: 20vw; }
+          .hero-brand-anchor { margin-bottom: 8vh; }
           .shop-label { top: 80px; }
 
           /* Shop grid: 2 columns */
           .shop-grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
           }
 
           .shop-col-label {
@@ -223,7 +233,7 @@ export default async function Home() {
 
         @media (min-width: 768px) and (max-width: 1024px) {
           .shop-grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
           }
         }
       `}</style>
